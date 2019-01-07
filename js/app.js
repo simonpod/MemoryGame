@@ -36,3 +36,105 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ // gets the list of the cards
+function getCards () {
+ 	var cards = document.getElementsByClassName("card");
+ 	console.log(cards);
+ 	//converts html collection into an array
+	return [...cards];
+}
+
+function getMoves() {
+ 	try {
+		var movesCounter = document.getElementsByClassName("moves")[0];
+		return movesCounter;
+	} catch(exception) {
+		console.log(exception);
+	}
+}
+
+function addMove () {
+	 var score = parseInt(getMoves().innerText,10) + 1;
+	 getMoves().innerText = score;
+	 updateStars();
+}
+
+
+ function updateStars() {
+ 	try {
+ 		//select the ul containing stars
+	var starUl = document.getElementsByClassName("stars")[0];
+	//gets i element and converts html collection into array
+	var starArray = [... starUl.getElementsByTagName("i")];
+
+
+// takes the current number of moves as an integer
+ var score = parseInt(getMoves().innerText,10)
+
+if (score <= 12) {
+	var starCount = 3
+}
+else if (score <= 18) {
+	var starCount = 2
+}
+else if (score <= 25) {
+	var starCount = 1
+}
+else {
+	var starCount = 0
+	alert("game over")
+restart()
+return
+}
+
+// array of i elements with stars
+	starArray.forEach(function (star, index) {
+		if (starCount > index) {
+			star.classList.add("fa-star")
+		}
+		else {
+			star.classList.remove("fa-star")
+		}
+
+	})
+
+} catch(exception) {
+	console.log(exception);}
+
+ }
+
+
+ function restart () {
+ //reset all cards
+ 	var cards = getCards()
+ 	cards.forEach( function(card, index) {
+ 		card.classList.remove("show");
+ 		card.classList.remove("match");
+ 		card.classList.remove("open");
+ 	});
+ 	shuffle(cards);
+// resets moves
+getMoves().innerHTML = "0";
+updateStars();
+ }
+
+
+
+
+
+// try to attach reset function to restart button
+try {
+	var restartButton = document.getElementsByClassName("restart")[0];
+	restartButton.addEventListener("click", restart);
+} catch(exception) {
+	console.log(exception);
+}
+
+//addEventListener(type: DOMString, callback: EventListener, capture?: boolean)
+
+/*
+
+cardClick.forEach(card => {
+  console.log(card);
+});*/
