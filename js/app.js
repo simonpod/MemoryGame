@@ -27,9 +27,9 @@ function shuffle(array) {
 
 
 /*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+
+ *  -
+ *  -
  *  - if the list already has another card, check to see if the two cards match
  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
@@ -54,8 +54,10 @@ function getMoves() {
 	}
 }
 
+//add moves to the counter
 function addMove () {
 	 var score = parseInt(getMoves().innerText,10) + 1;
+	 //converts string into number
 	 getMoves().innerText = score;
 	 updateStars();
 }
@@ -68,35 +70,33 @@ function addMove () {
 	//gets i element and converts html collection into array
 	var starArray = [... starUl.getElementsByTagName("i")];
 
-
 // takes the current number of moves as an integer
- var score = parseInt(getMoves().innerText,10)
-
-if (score <= 12) {
-	var starCount = 3
-}
-else if (score <= 18) {
-	var starCount = 2
-}
-else if (score <= 25) {
-	var starCount = 1
-}
-else {
-	var starCount = 0
-	alert("game over")
-restart()
-return
-}
+	var score = parseInt(getMoves().innerText,10)
+	if (score <= 12) {
+		var starCount = 3
+	}
+	else if (score <= 18) {
+		var starCount = 2
+	}
+	else if (score <= 25) {
+		var starCount = 1
+	}
+	else {
+		var starCount = 0
+		alert("game over")
+	restart()
+	return
+	}
 
 // array of i elements with stars
 	starArray.forEach(function (star, index) {
 		if (starCount > index) {
 			star.classList.add("fa-star")
 		}
+		//checks the index of the star against starCount adding or removing classes
 		else {
 			star.classList.remove("fa-star")
 		}
-
 	})
 
 } catch(exception) {
@@ -113,7 +113,10 @@ return
  		card.classList.remove("match");
  		card.classList.remove("open");
  	});
- 	shuffle(cards);
+ 	shuffle(cards.slice());
+ 	// for each pair of originAL AND SHUFFLED LIST
+ 	// SWAP THE FA-xxxxx VLASSES
+
 // resets moves
 getMoves().innerHTML = "0";
 updateStars();
@@ -123,7 +126,7 @@ updateStars();
 
 
 
-// try to attach reset function to restart button
+// attach reset function to restart button
 try {
 	var restartButton = document.getElementsByClassName("restart")[0];
 	restartButton.addEventListener("click", restart);
@@ -138,3 +141,15 @@ try {
 cardClick.forEach(card => {
   console.log(card);
 });*/
+
+// * set up the event listener for a card. If a card is clicked:
+
+ getCards().forEach( function(card) {
+ 	//add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+	card.addEventListener('click', function() {
+		card.classList.add('open','show');
+		addMove();
+
+	}
+	)
+});
