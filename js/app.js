@@ -148,20 +148,19 @@ var openCards = [];
  	//display the card's symbol
 	card.addEventListener('click', function() {
 		card.classList.add('open','show');
-
-	//add the card to a *list* of "open" cards
+		//add the card to a *list* of "open" cards
 		openCards.push(card);
 		console.log(openCards);
-		//checks if cards match. Currently working only on first 2 elements. Need to come up with a solution
- if (openCards[0].firstElementChild.classList[1] == openCards[1].firstElementChild.classList[1]) {
-			console.log('match');
+		//checks if cards match only if the array length is 2. Consider refactoring. TODO more logic for other instances and adding actions
+		if (openCards.length == 2) {
+ 			if (openCards[0].firstElementChild.classList[1] == openCards[1].firstElementChild.classList[1]) {
+				console.log('match');
+			}
+			else {
+				console.log('nomatch')
+			}
 		}
-		else {console.log('nomatch')};
-
-
-
 	})
-
 });
 
 
