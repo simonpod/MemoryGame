@@ -160,6 +160,10 @@ function match (card) {
 function click (event) {
 	// extract card from click event
 var card = event.target || event.srcElement;
+// if card is an I then get parent instead - fixes the bug when user click on the symbol instead of the container
+if (card.nodeName.toLowerCase() === "i") {
+	card = card.parentNode;
+}
 if (card.classList.contains("match")) {
 	return;
 }
@@ -173,6 +177,9 @@ if (card.classList.contains("match")) {
 	}
 		//checks if cards match only if the array length is 2. Consider refactoring. TODO more logic for other instances and adding actions
 		else if (openCards.length == 1) {
+			if (card.classList.contains("open")) {
+		return;
+	}
 		//add the card to a *list* of "open" cards
 		reveal (card);
  			if (openCards[0].firstElementChild.classList[1] == openCards[1].firstElementChild.classList[1]) {
