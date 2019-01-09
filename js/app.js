@@ -139,33 +139,71 @@ try {
 	console.log(exception);
 }
 
-function hideCards ()  {
-	card.classList.remove("open")
-	card.classList.remove("show")
+function hideCard (card)  {
+	card.classList.remove("open");
+	card.classList.remove("show");
+	card.classList.remove("match");
 }
 
+function reveal (card) {
+	card.classList.add("open");
+	card.classList.add("show");
+	openCards.push(card);
+}
+
+function match (card) {
+	reveal (card);
+	card.classList.add("match");
+
+}
+
+function click (event) {
+	// extract card from click event
+var card = event.target || event.srcElement;
+if (card.classList.contains("match")) {
+	return;
+}
+				if (openCards.length == 2) {
+// hide both, reveal new
+ 		hideCard(openCards[0]);
+ 		hideCard(openCards[1]);
+ 		openCards = [];
+		reveal (card);
+			// next clixk has 1 open already
+	}
+		//checks if cards match only if the array length is 2. Consider refactoring. TODO more logic for other instances and adding actions
+		else if (openCards.length == 1) {
+		//add the card to a *list* of "open" cards
+		reveal (card);
+ 			if (openCards[0].firstElementChild.classList[1] == openCards[1].firstElementChild.classList[1]) {
+				console.log('match');
+				match (openCards[0]);
+				match (openCards[1]);
+			// flush list
+		openCards = [];
+			// next clixk has 0 open already
+			addMove();
+		}
+			else {
+				console.log('nomatch')
+			// next clixk has 2 open already
+			addMove();
+		}
+
+		} else if (openCards==0){
+			// show card
+			reveal (card);
+			// next click has 1 open already
+		}
+		console.log(openCards);
+	}
 
 var openCards = [];
 
 // performs action on the card  when it's clicked:
  getCards().forEach( function(card) {
- 	//display the card's symbol
-	card.addEventListener('click', function() {
-		card.classList.add('open','show');
-		//add the card to a *list* of "open" cards
-		openCards.push(card);
-		console.log(openCards);
-		//checks if cards match only if the array length is 2. Consider refactoring. TODO more logic for other instances and adding actions
-		if (openCards.length == 2) {
- 			if (openCards[0].firstElementChild.classList[1] == openCards[1].firstElementChild.classList[1]) {
-				console.log('match');
-			}
-			else {
-				console.log('nomatch')
-			}
-			addMove();
-		}
-	})
+ 	//display the card's symbol + converted anonymous function to a named function to access it elsewhere
+	card.addEventListener('click', click)
 });
 
 restart ();
