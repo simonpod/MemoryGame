@@ -40,7 +40,7 @@ function shuffle(array) {
  // gets the list of the cards
 function getCards () {
  	var cards = document.getElementsByClassName("card");
- 	console.log(cards);
+
  	//converts html collection into an array
 	return [...cards];
 }
@@ -143,22 +143,32 @@ try {
 
 var openCards = [];
 
-// performs action on the card if when it's clicked:
+// performs action on the card  when it's clicked:
  getCards().forEach( function(card) {
  	//display the card's symbol
 	card.addEventListener('click', function() {
 		card.classList.add('open','show');
+
+	//add the card to a *list* of "open" cards
 		openCards.push(card);
 		console.log(openCards);
+		//checks if cards match. Currently working only on first 2 elements. Need to come up with a solution
+ if (openCards[0].firstElementChild.classList[1] == openCards[1].firstElementChild.classList[1]) {
+			console.log('match');
+		}
+		else {console.log('nomatch')};
+
+
+
+	})
+
+});
+
 
 
 
 
 		addMove();
 
-	//add the card to a *list* of "open" cards
 
 
-	}
-	)
-});
