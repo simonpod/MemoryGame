@@ -112,7 +112,11 @@ function addMove () {
  		card.classList.remove("show");
  		card.classList.remove("match");
  		card.classList.remove("open");
+ 		//sets the array of open cards to 0
+ 		openCards = [];
  	});
+
+// TODO
  	shuffle(cards.slice());
  	// for each pair of originAL AND SHUFFLED LIST
  	// SWAP THE FA-xxxxx VLASSES
@@ -134,21 +138,26 @@ try {
 	console.log(exception);
 }
 
-//addEventListener(type: DOMString, callback: EventListener, capture?: boolean)
 
-/*
 
-cardClick.forEach(card => {
-  console.log(card);
-});*/
 
-// * set up the event listener for a card. If a card is clicked:
+var openCards = [];
 
+// performs action on the card if when it's clicked:
  getCards().forEach( function(card) {
- 	//add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ 	//display the card's symbol
 	card.addEventListener('click', function() {
 		card.classList.add('open','show');
+		openCards.push(card);
+		console.log(openCards);
+
+
+
+
 		addMove();
+
+	//add the card to a *list* of "open" cards
+
 
 	}
 	)
