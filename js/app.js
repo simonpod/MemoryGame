@@ -17,9 +17,11 @@ function shuffle(array) {
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+        //moving classes around instead of shuffling elements. Adding value to co
+        temporaryValue = array[currentIndex].classList.value;
+        array[currentIndex].classList.value = array[randomIndex].classList.value;
+        array[randomIndex].classList.value = temporaryValue;
+
     }
 
     return array;
@@ -108,19 +110,18 @@ function addMove () {
  function restart () {
  //reset all cards
  	var cards = getCards()
+ 	// empty array for
+ 	var card_i_tags = [];
  	cards.forEach( function(card, index) {
  		card.classList.remove("show");
  		card.classList.remove("match");
  		card.classList.remove("open");
+ 		// extract i tags from li
+ 		card_i_tags.push(card.getElementsByTagName('i')[0])
+ 	});
  		//sets the array of open cards to 0
  		openCards = [];
- 	});
-
-// TODO
- 	shuffle(cards.slice());
- 	// for each pair of originAL AND SHUFFLED LIST
- 	// SWAP THE FA-xxxxx VLASSES
-
+ 	shuffle(card_i_tags);
 // resets moves
 getMoves().innerHTML = "0";
 updateStars();
@@ -138,7 +139,10 @@ try {
 	console.log(exception);
 }
 
-
+function hideCards ()  {
+	card.classList.remove("open")
+	card.classList.remove("show")
+}
 
 
 var openCards = [];
@@ -159,15 +163,16 @@ var openCards = [];
 			else {
 				console.log('nomatch')
 			}
+			addMove();
 		}
 	})
 });
 
+restart ();
 
 
 
 
-		addMove();
 
 
 
