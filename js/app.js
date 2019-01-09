@@ -1,16 +1,8 @@
-/*
- * Create a list that holds all of your cards
- */
+// Create a list that holds all of your cards
+var openCards = [];
 
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-// Shuffle function from http://stackoverflow.com/a/2450976
+// Shuffle function from http://stackoverflow.com/a/2450976  + amended to operate in-place
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -21,28 +13,29 @@ function shuffle(array) {
         temporaryValue = array[currentIndex].classList.value;
         array[currentIndex].classList.value = array[randomIndex].classList.value;
         array[randomIndex].classList.value = temporaryValue;
-
     }
-
     return array;
 }
 
+function gameWon() {
+	var numberMatchedCards = 0;
+	getCards().forEach(function (card)
+ {
+ if (card.classList.contains("match")) {
+ 	numberMatchedCards += 1;
+ }
+ }
+)
 
-/*
-
- *  -
- *  -
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+if (numberMatchedCards == 16) {
+	alert('You won the game with the score of ' + getScore() )
+	restart ();
+}
+}
 
  // gets the list of the cards
 function getCards () {
  	var cards = document.getElementsByClassName("card");
-
  	//converts html collection into an array
 	return [...cards];
 }
@@ -56,9 +49,14 @@ function getMoves() {
 	}
 }
 
+//added function to display the result in a cleaner code
+function getScore () {
+	return parseInt(getMoves().innerText,10);
+}
+
 //add moves to the counter
 function addMove () {
-	 var score = parseInt(getMoves().innerText,10) + 1;
+	 var score = getScore () + 1;
 	 //converts string into number
 	 getMoves().innerText = score;
 	 updateStars();
@@ -100,7 +98,6 @@ function addMove () {
 			star.classList.remove("fa-star")
 		}
 	})
-
 } catch(exception) {
 	console.log(exception);}
 
@@ -190,6 +187,7 @@ if (card.classList.contains("match")) {
 		openCards = [];
 			// next clixk has 0 open already
 			addMove();
+			setTimeout(gameWon, 500);
 		}
 			else {
 				console.log('nomatch')
@@ -204,9 +202,6 @@ if (card.classList.contains("match")) {
 		}
 		console.log(openCards);
 	}
-
-var openCards = [];
-
 // performs action on the card  when it's clicked:
  getCards().forEach( function(card) {
  	//display the card's symbol + converted anonymous function to a named function to access it elsewhere
