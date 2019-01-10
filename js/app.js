@@ -1,6 +1,5 @@
-// Create a list that holds all of your cards
+// array of all cards
 var openCards = [];
-
 
 // Shuffle function from http://stackoverflow.com/a/2450976  + amended to operate in-place
 function shuffle(array) {
@@ -19,16 +18,16 @@ function shuffle(array) {
 
 function gameWon() {
 	var numberMatchedCards = 0;
+
 	getCards().forEach(function (card)
  {
  if (card.classList.contains("match")) {
  	numberMatchedCards += 1;
  }
- }
-)
+ })
 
 if (numberMatchedCards == 16) {
-	alert('You won the game with the score of ' + getScore() )
+	alert('You won the game in ' + getScore() + ' moves.' )
 	restart ();
 }
 }
@@ -44,16 +43,15 @@ function getMoves() {
  	try {
 		var movesCounter = document.getElementsByClassName("moves")[0];
 		return movesCounter;
-	} catch(exception) {
+	}
+	catch(exception) {
 		console.log(exception);
 	}
 }
-
 //added function to display the result in a cleaner code
 function getScore () {
 	return parseInt(getMoves().innerText,10);
 }
-
 //add moves to the counter
 function addMove () {
 	 var score = getScore () + 1;
@@ -69,7 +67,6 @@ function addMove () {
 	var starUl = document.getElementsByClassName("stars")[0];
 	//gets i element and converts html collection into array
 	var starArray = [... starUl.getElementsByTagName("i")];
-
 // takes the current number of moves as an integer
 	var score = parseInt(getMoves().innerText,10)
 	if (score <= 12) {
@@ -87,7 +84,6 @@ function addMove () {
 	restart()
 	return
 	}
-
 // array of i elements with stars
 	starArray.forEach(function (star, index) {
 		if (starCount > index) {
@@ -98,9 +94,9 @@ function addMove () {
 			star.classList.remove("fa-star")
 		}
 	})
-} catch(exception) {
+}
+catch(exception) {
 	console.log(exception);}
-
  }
 
 
@@ -124,10 +120,6 @@ getMoves().innerHTML = "0";
 updateStars();
  }
 
-
-
-
-
 // attach reset function to restart button
 try {
 	var restartButton = document.getElementsByClassName("restart")[0];
@@ -136,6 +128,8 @@ try {
 	console.log(exception);
 }
 
+
+//cards logic
 function hideCard (card)  {
 	card.classList.remove("open");
 	card.classList.remove("show");
@@ -151,33 +145,31 @@ function reveal (card) {
 function match (card) {
 	reveal (card);
 	card.classList.add("match");
-
 }
 
 function click (event) {
 	// extract card from click event
-var card = event.target || event.srcElement;
-// if card is an I then get parent instead - fixes the bug when user click on the symbol instead of the container
+var card = event.target;
+// if card is an 'i' then get parent instead - fixes the bug when user click on the symbol instead of the container
 if (card.nodeName.toLowerCase() === "i") {
 	card = card.parentNode;
 }
 if (card.classList.contains("match")) {
 	return;
 }
-				if (openCards.length == 2) {
+	if (openCards.length == 2) {
 // hide both, reveal new
  		hideCard(openCards[0]);
  		hideCard(openCards[1]);
  		openCards = [];
 		reveal (card);
-			// next clixk has 1 open already
+			// next click has 1 open already
 	}
-		//checks if cards match only if the array length is 2. Consider refactoring. TODO more logic for other instances and adding actions
-		else if (openCards.length == 1) {
-			if (card.classList.contains("open")) {
+	else if (openCards.length == 1) {
+		if (card.classList.contains("open")) {
 		return;
 	}
-		//add the card to a *list* of "open" cards
+		//add the card to an array of "open" cards
 		reveal (card);
  			if (openCards[0].firstElementChild.classList[1] == openCards[1].firstElementChild.classList[1]) {
 				console.log('match');
@@ -185,7 +177,7 @@ if (card.classList.contains("match")) {
 				match (openCards[1]);
 			// flush list
 		openCards = [];
-			// next clixk has 0 open already
+			// next click has 0 open already
 			addMove();
 			setTimeout(gameWon, 500);
 		}
@@ -202,17 +194,10 @@ if (card.classList.contains("match")) {
 		}
 		console.log(openCards);
 	}
-// performs action on the card  when it's clicked:
- getCards().forEach( function(card) {
+// performs action on the card  when it's clicked
+ getCards().forEach(function(card) {
  	//display the card's symbol + converted anonymous function to a named function to access it elsewhere
 	card.addEventListener('click', click)
 });
 
 restart ();
-
-
-
-
-
-
-
