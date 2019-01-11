@@ -149,12 +149,12 @@ function match (card) {
 
 function click (event) {
 	// extract card from click event
-var card = event.target;
+	var card = event.target;
 // if card is an 'i' then get parent instead - fixes the bug when user click on the symbol instead of the container
-if (card.nodeName.toLowerCase() === "i") {
-	card = card.parentNode;
+	if (card.nodeName.toLowerCase() === "i") {
+		card = card.parentNode;
 }
-if (card.classList.contains("match")) {
+	if (card.classList.contains("match")) {
 	return;
 }
 	if (openCards.length == 2) {
